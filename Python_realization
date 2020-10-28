@@ -1,0 +1,22 @@
+def Z_func(s):
+    length=len(s)
+    Z=[length]
+    CurSeg=(0,0)
+    for i in range(1,length):
+        if i in range(CurSeg[0],CurSeg[1]+1):
+            if Z[i-CurSeg[0]]<CurSeg[1]-i+1:
+                Z.append(Z[i-CurSeg[0]])
+            else:
+                Z.append(CurSeg[1]-i+1)
+                t=0
+                while CurSeg[1]+t+1<length and s[CurSeg[1]+t+1]==s[CurSeg[1]-i+1+t]:
+                    t+=1
+                Z[-1]+=t
+                CurSeg=(i,CurSeg[1]+t)
+        else:
+            index=i
+            while index < length and s[index]==s[index-i]:
+                index+=1
+            CurSeg=(i,index-1)
+            Z.append(index-i)
+    return Z
